@@ -2,7 +2,7 @@ module TypesSw where
 
 import General
 import Dictionary
-import Invariant
+import Data.Functor.Invariant
 
 -- parameter types for Swedish morphology
 

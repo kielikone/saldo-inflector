@@ -31,7 +31,7 @@ module GenRulesSw (
                   ) where
 
 import General
-import List
+import Data.List
 
 type Suffixes = [((String -> String), String)]
 

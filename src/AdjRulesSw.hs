@@ -13,7 +13,7 @@ import TypesSw
 import General
 import NounRulesSw(mk_case)
 import GenRulesSw
-import List(nub)
+import Data.List(nub)
 
 no_neutrum :: Adjective -> Adjective
 no_neutrum f = missing f [(AF (Pos (Strong ASgNeutr))  c) | c <- values]

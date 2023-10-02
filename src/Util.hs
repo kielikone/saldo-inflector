@@ -1,8 +1,9 @@
 module Util where
 
-import List
+import Data.List
 import UTF8
-import IO
+import GHC.IO.Handle
+import System.IO
 
 quote :: String -> String
 quote s = ('\"':(quot s)) ++ "\""

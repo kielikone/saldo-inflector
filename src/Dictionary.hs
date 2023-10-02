@@ -1,16 +1,16 @@
 module Dictionary where
 
 import General
-import List (intersperse,sortBy, group)
-import Char
-import IO
+import Data.List (intersperse,sortBy, group)
+-- import Char
+-- import IO
 import Util
 import System.IO.Unsafe (unsafePerformIO)
 import qualified Data.Set as Set
 import SharedString
-import Dict.ErrM
+-- import Dict.ErrM (Käytöltään täysin mystinen)
 import UTF8
-import Maybe
+import Data.Maybe
 import qualified Data.Set as Set
 
 

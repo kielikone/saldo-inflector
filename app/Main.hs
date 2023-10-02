@@ -5,4 +5,4 @@ import GenRulesSw
 main :: IO ()
 main = do
   x <- getLine
-  printLn (GenRulesSw.get_stem_vowel x)
+  print (GenRulesSw.find_stem_vowel x)

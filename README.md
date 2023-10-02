@@ -1,3 +1,3 @@
 # saldo-inflector
 
-Guesser-less swedish inflector extracted from [https://spraakbanken.gu.se/resurser/saldo](Språkbanken's SALDO) which seems to have wider features. Updated to build with current toolchains.
+Guesser-less swedish inflector extracted from [Språkbanken's SALDO](https://spraakbanken.gu.se/resurser/saldo) which seems to have wider features. Updated to build with current toolchains.

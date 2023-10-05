@@ -290,9 +290,7 @@ do_inflection words = firstJusts [(do_verb words), (do_noun words), (do_adjectiv
 infl :: CString -> (Ptr Int) -> IO (Ptr CString)
 infl line ret_val = do
     input <- peekCString line
-    putStrLn ("Haskell received " ++ input)
     let haskell_result = fmap unStr (do_inflection (words input))
-    putStrLn ("Haskell is trying to marshall " ++ (show haskell_result))
     maybe (return nullPtr) (\strings -> do
         poke ret_val (length strings)
         (forM strings newCString) >>= newArray) haskell_result

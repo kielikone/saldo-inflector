@@ -1,19 +1,15 @@
-all: capp
+all: lib
 
-saldolib: src/Saldo.hs package.yaml stack.yaml
+lib: src/Saldo.hs package.yaml stack.yaml
 	rm saldo.cabal
 	stack build
-	cp $(shell dirname $(shell stack exec -- which saldo-exe))/../lib/libsaldo.* capp
-
-capp: saldolib
-	cd capp && make
-
-run: capp
-	cd capp && make run
+	mkdir lib
+	bash cp_deps.sh
 
 clean:
+	rm -rf lib
 	rm -f saldo.cabal
 	rm -rf dist-newstyle
-	stack clean && cd capp && make clean
+	stack clean
 
-.PHONY: all usingcabal potatolib capp run clean
+.PHONY: all clean

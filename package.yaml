@@ -52,7 +52,7 @@ verbatim: |
     hs-source-dirs:      src
     c-sources:           csrc/saldo.cpp
     default-language:    Haskell2010
-    ghc-options: -static -optl-pthread -optl-static
+    ghc-options: -optl-lstdc++
 
 executables:
   saldo-exe:

@@ -19,8 +19,9 @@ void saldoExit(void){
   hs_exit();
 }
 
-char** c_infl(const char* word, int* ret_val) {
-    return (char **) infl((char*) word, ret_val);
+char** c_infl(const char* paradigm, const char* word, const char* form, int* ret_val) {
+    // Casts to (char *) are motivated: Haskell won't ever modify these
+    return (char **) infl((char*) paradigm, (char*) word, (char*) form, ret_val);
 }
 
 void c_free_arr(char** arr, int len) {

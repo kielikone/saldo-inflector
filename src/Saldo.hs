@@ -248,36 +248,35 @@ av_lookup = [("av0kronisk", av0kronisk),
 usage :: String
 usage = "USAGE: Interactive, lines of the form \"fn word form\""
 
-do_verb :: [String] -> Maybe Str
-do_verb (fn_name:word:rest) = as_verb_maybe >>= (\verb -> form_maybe >>= (\form -> Just (verb form)))
+do_verb :: String -> String -> String -> Maybe Str
+do_verb fn_name word rest = as_verb_maybe >>= (\verb -> form_maybe >>= (\form -> Just (verb form)))
     where fn_maybe = lookup fn_name vb_lookup :: Maybe (String -> Verb)
           as_verb_maybe = fn_maybe >>= (\fn -> Just (fn word)) :: Maybe Verb
-          form_maybe = readMaybe (unwords rest) :: Maybe VerbForm
-do_verb _ = Nothing
+          form_maybe = readMaybe rest :: Maybe VerbForm
 
 
-do_noun :: [String] -> Maybe Str
-do_noun (fn_name:word:rest) = as_noun_maybe >>= (\noun -> form_maybe >>= (\form -> Just (noun form)))
+do_noun :: String -> String -> String -> Maybe Str
+do_noun fn_name word rest = as_noun_maybe >>= (\noun -> form_maybe >>= (\form -> Just (noun form)))
     where fn_maybe = lookup fn_name nn_lookup :: Maybe (String -> Substantive)
           as_noun_maybe = fn_maybe >>= (\fn -> Just (fn word)) :: Maybe Substantive
-          form_maybe = readMaybe (unwords rest) :: Maybe SubstForm
-do_noun _ = Nothing
+          form_maybe = readMaybe rest :: Maybe SubstForm
 
 
-do_adjective :: [String] -> Maybe Str
-do_adjective (fn_name:word:rest) = as_adjective_maybe >>= (\adjective -> form_maybe >>= (\form -> Just (adjective form)))
+do_adjective :: String -> String -> String -> Maybe Str
+do_adjective fn_name word rest = as_adjective_maybe >>= (\adjective -> form_maybe >>= (\form -> Just (adjective form)))
     where fn_maybe = lookup fn_name av_lookup :: Maybe (String -> Adjective)
           as_adjective_maybe = fn_maybe >>= (\fn -> Just (fn word)) :: Maybe Adjective
-          form_maybe = readMaybe (unwords rest) :: Maybe AdjForm
-do_adjective _ = Nothing
+          form_maybe = readMaybe rest :: Maybe AdjForm
 
 firstJusts :: [Maybe a] -> Maybe a
 firstJusts [] = Nothing
 firstJusts (Just x:_) = Just x
 firstJusts (Nothing:tail) = firstJusts tail
 
-do_inflection :: [String] -> Maybe Str
-do_inflection words = firstJusts [(do_verb words), (do_noun words), (do_adjective words)]
+do_inflection :: String -> String -> String -> Maybe Str
+do_inflection paradigm word form = firstJusts [(do_verb paradigm word form),
+                                               (do_noun paradigm word form),
+                                               (do_adjective paradigm word form)]
 
 
 -- Caller allocates input string and is responsible for calling free_arr
@@ -287,15 +286,17 @@ do_inflection words = firstJusts [(do_verb words), (do_noun words), (do_adjectiv
 
 -- Output can be nullptr: this happens if the input failed to parse
 
-infl :: CString -> (Ptr Int) -> IO (Ptr CString)
-infl line ret_val = do
-    input <- peekCString line
-    let haskell_result = fmap unStr (do_inflection (words input))
+infl :: CString -> CString -> CString -> (Ptr Int) -> IO (Ptr CString)
+infl paradigm_ word_ form_ ret_val = do
+    paradigm <- peekCString paradigm_
+    word <- peekCString word_
+    form <- peekCString form_
+    let haskell_result = fmap unStr (do_inflection paradigm word form)
     maybe (return nullPtr) (\strings -> do
         poke ret_val (length strings)
         (forM strings newCString) >>= newArray) haskell_result
 
-foreign export ccall infl :: CString -> (Ptr Int) -> IO (Ptr CString)
+foreign export ccall infl :: CString -> CString -> CString -> (Ptr Int) -> IO (Ptr CString)
 
 -- Frees the array (incl. strings) returned by infl
 

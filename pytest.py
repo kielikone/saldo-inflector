@@ -7,16 +7,16 @@ class Saldo:
         self.ffi = FFI()
         self.ffi.cdef("void saldoInit();")
         self.ffi.cdef("void saldoExit();")
-        self.ffi.cdef("char** c_infl(char*, int*);")
+        self.ffi.cdef("char** c_infl(char*, char*, char*, int*);")
         self.ffi.cdef("void c_free_arr(char**, int);")
 
         self.lib = self.ffi.dlopen("capp/libsaldo.dylib")
 
         self.lib.saldoInit()
     
-    def inflect(self, s):
+    def inflect(self, paradigm, word, form):
         n_ret = self.ffi.new("int*")
-        result = self.lib.c_infl(s.encode("utf-8"), n_ret)
+        result = self.lib.c_infl(paradigm.encode("utf-8"), word.encode("utf-8"), form.encode("utf-8"), n_ret)
 
         if result == self.ffi.NULL:
             return None

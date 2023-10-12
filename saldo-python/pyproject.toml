@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "saldo-python"
 version = "0.0.1"
 authors = [
-  { name="TODO", email="TODO" },
+  { name="TODO", email="placeholder@example.com" },
 ]
 description = "Python access to Swedish SALDO inflection paradigms"
 readme = "README.md"

@@ -1,0 +1,3 @@
+include src/saldo/lib/*.dylib
+include src/saldo/lib/*.so
+include src/saldo/lib/ext_libs/*.so

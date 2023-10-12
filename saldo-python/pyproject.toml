@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "saldo-python"
+version = "0.0.1"
+authors = [
+  { name="Théo Friberg", email="theo.friberg@kielikone.fi" },
+]
+description = "Python access to Swedish SALDO inflection paradigms"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later+(LGPLv3+)",
+    "Operating System :: OS Independent", # Not actually true; makefile fixes
+]
+dependencies = ["cffi"]
+
+[project.urls]
+"Homepage" = "https://github.com/kielikone/saldo-inflector"
+"Bug Tracker" = "https://github.com/kielikone/saldo-inflector"
+
+[tool.setuptools.package-data]
+saldo = [ "*.so", "*.dylib" ]

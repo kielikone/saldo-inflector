@@ -245,9 +245,6 @@ av_lookup = [("av0kronisk", av0kronisk),
              ("av2ung", av2ung),
              ("av2yttre", av2yttre)]
 
-usage :: String
-usage = "USAGE: Interactive, lines of the form \"fn word form\""
-
 do_verb :: String -> String -> String -> Maybe Str
 do_verb fn_name word rest = as_verb_maybe >>= (\verb -> form_maybe >>= (\form -> Just (verb form)))
     where fn_maybe = lookup fn_name vb_lookup :: Maybe (String -> Verb)

@@ -1,7 +1,7 @@
-name:                saldo-inflector
+name:                saldo
 version:             0.1.0.0
 github:              "kielikone/saldo-inflector"
-license:             "LGPL v.3"
+license:             "LGPL-3"
 author:              "Théo Friberg"
 maintainer:          "theo.friberg@kielikone.fi"
 copyright:           "Kielikone"

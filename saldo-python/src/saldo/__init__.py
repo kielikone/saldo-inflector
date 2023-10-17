@@ -22,11 +22,11 @@ class Saldo:
         else:
             raise ValueError("Unsupported OS")
 
-        self.lib.saldoInit()
+        self.lib.saldoInit() # type: ignore
     
-    def inflect(self, paradigm, word, form):
+    def inflect(self, paradigm: str, word: str, form: str) -> list[str] | None:
         n_ret = self.ffi.new("uint64_t*")
-        result = self.lib.c_infl(paradigm.encode("utf-8"), word.encode("utf-8"), form.encode("utf-8"), n_ret)
+        result = self.lib.c_infl(paradigm.encode("utf-8"), word.encode("utf-8"), form.encode("utf-8"), n_ret) # type: ignore
 
         if result == self.ffi.NULL:
             return None
@@ -34,13 +34,13 @@ class Saldo:
         returnable = []
 
         for i in range(n_ret[0]):
-            returnable.append(self.ffi.string(result[i]).decode("utf-8"))
+            returnable.append(self.ffi.string(result[i]).decode("utf-8")) # type: ignore
         
-        self.lib.c_free_arr(result, n_ret[0])
+        self.lib.c_free_arr(result, n_ret[0]) # type: ignore
         
         return returnable
     
-    def paradigm(self, paradigm_name, word):
+    def paradigm(self, paradigm_name: str, word: str) -> dict[str, list[str]] | None:
 
         # Allocate caller-allocated structures
 
@@ -59,11 +59,12 @@ class Saldo:
 
         # Call
 
-        self.lib.c_paradigm(paradigm_name.encode("utf-8"), word.encode("utf-8"), form_names_qty, form_names, forms_qty, inflected_forms)
+        self.lib.c_paradigm(paradigm_name.encode("utf-8"), word.encode("utf-8"), form_names_qty, form_names, forms_qty, inflected_forms) # type: ignore
 
-        if form_names_qty[0] == -1:
+        if form_names[0] == self.ffi.NULL:
 
             # GC takes care of deallocating our pointers
+            # Callee never allocated anything
 
             return None
 
@@ -75,25 +76,25 @@ class Saldo:
             form_value_idx = 0
 
             for i in range(form_names_qty[0]):
-                name = self.ffi.string(form_names[0][i]).decode("utf-8")
+                name = self.ffi.string(form_names[0][i]).decode("utf-8") # type: ignore
                 values = []
                 for _ in range(forms_qty[0][i]):
-                    values.append(self.ffi.string(inflected_forms[0][form_value_idx]).decode("utf-8"))
+                    values.append(self.ffi.string(inflected_forms[0][form_value_idx]).decode("utf-8")) # type: ignore
                     form_value_idx += 1
                 result.append((name, values))
             
             # Deallocate callee-allocated structures
 
-            self.lib.c_free_int_arr(forms_qty[0])
-            self.lib.c_free_arr(inflected_forms[0], form_value_idx)
-            self.lib.c_free_arr(form_names[0], form_names_qty[0])
+            self.lib.c_free_int_arr(forms_qty[0]) # type: ignore
+            self.lib.c_free_arr(inflected_forms[0], form_value_idx) # type: ignore
+            self.lib.c_free_arr(form_names[0], form_names_qty[0]) # type: ignore
 
             # form_names_qty gets GC'd
 
-            return result
+            return dict(result)
 
 
 
     
     def __del__(self):
-        self.lib.saldoExit()
+        self.lib.saldoExit() # type: ignore

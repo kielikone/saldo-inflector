@@ -5,7 +5,7 @@ import Dictionary
 import GenRulesSw
 import TypesSw
 import RulesSw
-import Char
+import Data.Char
 
 substantive :: Substantive -> Genus -> Entry
 substantive n g = entryI (hyphenate_compounds n) [prValue g]

@@ -7,8 +7,10 @@ The morphological paradigms for saldo were carved out from the source code and a
 ```python
 >>> from saldo import Saldo
 >>> s = Saldo()
->>> s.inflect("nn1 rosa (SF Pl Indef Gen)")
->>> ['rosors']
+>>> s.inflect("nn_1u_ros", "ros", "pl indef gen")
+['rosors']
+>>> s.paradigm("nn_1u_ros", "ros")
+[('sg indef nom', ['ros']), ('sg indef gen', ['ros']), ('sg def nom', ['rosen']), ('sg def gen', ['rosens']), ('pl indef nom', ['rosor']), ('pl indef gen', ['rosors']), ('pl def nom', ['rosorna']), ('pl def gen', ['rosornas']), ('comp', ['ros-', 'ros'])]
 ```
 
 This library supports amd64 and aarch64 Linux and macOS. There is no fundamental reason as to why it couldn't support Windows, the effort to build the `dll` has just not been expended as of yet.

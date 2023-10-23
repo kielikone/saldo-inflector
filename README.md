@@ -2,7 +2,7 @@
 
 Saldo inflector is a morphological inflector for Swedish. It is built from the Haskell source code [released by Språkbanken](https://spraakbanken.gu.se/resurser/saldo). (Scroll to the bottom of the page and look in the archive labeled SALDO v.1.0)
 
-The morphological paradigms for saldo were carved out from the source code and adapted to build (hopefully reproducibly) using a modern Haskell stack. Glue code was written such that these paradigms can be used from Python:
+The morphological paradigms for Saldo were carved out from the source code and adapted to build (hopefully reproducibly) using a modern Haskell stack. Glue code was written such that these paradigms can be used from Python:
 
 ```python
 >>> import saldo
@@ -50,7 +50,7 @@ Do `make`. Cross-building between different macOS architectures isn't supported 
 
 ## Usage
 
-Create a `saldo.Saldo()` and use its only method, `inflect`. It takes the paradigm, lemma and inflection as parameters in that order. It returns a list of strings is the paradigm and inflection were understood and None otherwise.
+Import the `paradigm(paradigm_name, word)` function from `saldo`. `paradigm_name` is one of the paradigms listed below and `word` is an arbitrary lemma to return the paradigm of. The function returns a `dict[str, list[str]]` if the paradigm is found and `None` otherwise.
 
 ## Paradigms
 
@@ -873,4 +873,4 @@ The following paradigms are supported (ostensibly the ones from SALDO v.1.0). In
 
 ## License
 
-The original saldo is dual-licensed under CC-BY and LGPL v.3. As a result, `saldo-inflector` is under the LGPL v.3 license, copyright 2023 Kielikone oy.
+The original Saldo is dual-licensed under CC-BY and LGPL v.3. As a result, `saldo-inflector` is under the LGPL v.3 license, copyright 2023 Kielikone oy.

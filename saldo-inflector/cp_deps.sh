@@ -1,6 +1,6 @@
 echo 'Copying dynamic library'
 
-cp $(dirname $(stack exec -- which saldo-exe))/../lib/libsaldo.* lib/
+cp $(stack path --local-install-root)/lib/libsaldo.* lib/
 
 if [ "$(uname)" = "Linux" ]; then
 

@@ -1,6 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
-module Saldo (do_inflection, get_whole_paradigm) where
+module Saldo (get_whole_paradigm) where
 
 import CommandsSw
 import Dictionary
@@ -33,30 +33,6 @@ get_whole_paradigm paradigm word = do
       let entry = f [word] :: Entry
       let result = prune_inflection_table (fish_entry_inflections entry)
       return result
-
-do_inflection :: String -> String -> String -> Maybe [String]
-do_inflection paradigm word form = table >>= (lookup form)
-    where table = get_whole_paradigm paradigm word
-
-
--- Caller allocates input string and is responsible for calling free_arr
--- Callee allocates and populates output array
--- Caller is responsible for calling deallocator provided by callee iff returned array is not null
--- Num of elements in returned array is written to the given pointer (undefined if returned array is null)
-
--- Output can be nullptr: this happens if the input failed to parse
-
-infl :: CString -> CString -> CString -> (Ptr Word64) -> IO (Ptr CString)
-infl paradigm_ word_ form_ ret_val = do
-    paradigm <- peekCString paradigm_
-    word <- peekCString word_
-    form <- peekCString form_
-    let haskell_result = do_inflection paradigm word form
-    maybe (return nullPtr) (\strings -> do
-        poke ret_val (fromIntegral (length strings))
-        (forM strings newCString) >>= newArray) haskell_result
-
-foreign export ccall infl :: CString -> CString -> CString -> (Ptr Word64) -> IO (Ptr CString)
 
 -- The data structure here is somewhat hairy
 -- We do everything with return args

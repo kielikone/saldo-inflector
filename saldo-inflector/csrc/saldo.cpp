@@ -19,11 +19,6 @@ void saldoExit(void){
   hs_exit();
 }
 
-char** c_infl(const char* paradigm, const char* word, const char* form, uint64_t* ret_val) {
-    // Casts to (char *) are motivated: Haskell won't ever modify these
-    return (char **) infl((char*) paradigm, (char*) word, (char*) form, ret_val);
-}
-
 // paradigm_name_ word_ form_name_qty form_names forms_qty inflected_forms
 
 void c_paradigm(char* paradigm_name, char* word, uint64_t* form_name_qty, char*** form_names, uint64_t** forms_qty, char*** inflected_forms) {

@@ -1,6 +1,6 @@
 # Saldo-inflector
 
-Saldo inflector is a morphological inflector for Swedish. It is built from the Haskell source code [released by Språkbanken](https://spraakbanken.gu.se/resurser/saldo). (Scroll to the bottom of the page and look in the archive labeled SALDO v.1.)
+Saldo inflector is a morphological inflector for Swedish. It is built from the Haskell source code [released by Språkbanken](https://spraakbanken.gu.se/resurser/saldo). (Scroll to the bottom of the page and look in the archive labeled SALDO v.1.0)
 
 The morphological paradigms for saldo were carved out from the source code and adapted to build (hopefully reproducibly) using a modern Haskell stack. Glue code was written such that these paradigms can be used from Python:
 
